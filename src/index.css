@@ -1,0 +1,8 @@
+/* Глобальные стили для проекта, их можно дополнять и менять по желанию */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  background-color: #F9F9F9;
+}

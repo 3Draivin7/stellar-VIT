@@ -1,0 +1,17 @@
+@font-face {
+  font-family: 'Nunito Regular';
+  src: url(./Nunito-Regular.woff) format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Nunito SemiBold';
+  src: url(./Nunito-SemiBold.woff) format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Nunito ExtraBold';
+  src: url(./Nunito-ExtraBold.woff) format('woff');
+  font-display: swap;
+}

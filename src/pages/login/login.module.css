@@ -1,0 +1,257 @@
+@font-face {
+    font-family: 'Nunito Regular';
+    src: url(../../fonts/Nunito-Regular.woff) format('woff');
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Nunito SemiBold';
+    src: url(../../fonts/Nunito-SemiBold.woff) format('woff');
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: 'Nunito ExtraBold';
+    src: url(../../fonts/Nunito-ExtraBold.woff) format('woff');
+    font-display: swap;
+  }
+ /* Page */
+.page {
+    background-color: #F9F9F9;
+}
+
+/* Header */
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 10px;
+    font-family: 'Nunito ExtraBold', sans-serif;
+    background-color: #02522B;
+}
+
+.header_title {
+    color: #FFFFFF;
+    font-size: clamp(2.125rem, 1.6875rem + 1.9444vw, 3.4375rem);
+    line-height: 36px;
+    font-weight: 800;
+}
+
+.header_logo {
+    width: clamp(2.5rem, 2.1875rem + 1.3889vw, 3.4375rem);
+}
+
+@media (width >= 768px) {
+    .header {
+        gap: 15px;
+        padding: 30px 100px;
+    }
+} 
+
+@media (width >= 1024px) {
+    .header {
+        padding: 30px 115px;
+    }
+}
+
+/* NAVIGATION */
+
+.nav_menu {
+    margin-block: 30px;
+}
+
+@media (width >= 1024px) {
+    .nav_menu {
+        margin-block: 40px;
+    }
+}
+
+.nav_menu_list {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.nav_menu_button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 140px;
+    height: 30px;
+    border: none;
+    border-radius: 15px;
+    background-color: #02522B;
+    font-family: 'Nunito SemiBold', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 16px;
+    color: #FFFFFF;
+    transition: background-color 0.3s;
+}
+
+.error{
+    color: red;
+}
+
+.nav_menu_button:hover {
+    cursor: pointer;
+    background-color: #FF6B01;
+}
+
+.nav_menu_button:active {
+    cursor: pointer;
+    background-color: #FD3511;
+}
+
+.nav_menu_button:focus {
+    outline: none;
+}
+
+.nav_menu_button:focus-visible {
+    border: 2px solid #FF6B01;
+}
+
+.button_logo {
+    width: 24px;
+    height: 24px;
+}
+
+/* SECTION PROFILE */
+
+.profile {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    padding-inline: 10px;
+    margin-block-end: 30px;
+}
+
+@media (width >= 768px) {
+    .profile {
+        padding-inline: 65px;
+    }
+}
+
+@media (width >= 1024px) {
+    .profile {
+        padding-inline: 74px;
+        margin-block-end: 40px;
+    }
+}
+
+.profile_title {
+    font-family: 'Nunito SemiBold', sans-serif;
+    font-size: 34px;
+    font-weight: 600;
+    line-height: 34px;
+    color: #FF6B01;
+}
+
+.profile_log {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    font-family: 'Nunito SemiBold', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.profile_form {
+    width: 210px;
+    height: 30px;
+    padding: 5px;
+}
+
+.profile_button {
+    margin-block-start: 15px;
+    height: 30px;
+    min-width: 90px;
+    border: none;
+    background-color: #02522B;
+    color: #ffffff;
+    border-radius: 15px;
+    transition: background-color 0.3s;
+}
+
+.profile_button:hover {
+    cursor: pointer;
+    background-color: #FF6B01;
+}
+
+.profile_button:active {
+    cursor: pointer;
+    background-color: #FD3511;
+}
+
+.profile_button:focus {
+    outline: none;
+}
+
+.profile_button:focus-visible {
+    border: 2px solid #FF6B01;
+}
+
+/* FOOTER */
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-inline: 10px;
+    margin-block-end: 30px;
+}
+
+@media (width >= 768px) {
+    .footer {
+        padding-inline: 65px;
+    }
+}
+
+@media (width >= 1024px) {
+    .footer {
+        padding-inline: 74px;
+        margin-block-end: 40px;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+}
+
+.main_footer {
+    font-family: 'Nunito ExtraBold', sans-serif;
+    color: #FF7020;
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 36px;
+    font-weight: 800;
+}
+
+.phone {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Nunito Regular', sans-serif;
+    font-style: normal;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 18px;
+}
+
+.social {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.social_title {
+    font-family: 'Nunito Regular', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 18px;
+    font-weight: normal;
+}

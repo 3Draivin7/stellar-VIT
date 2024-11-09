@@ -1,0 +1,165 @@
+/* Page */
+/*.page {
+    background-color: #F9F9F9;
+}
+
+.popup {
+    background-color: #ffffff;
+    margin: auto;
+    width: 90vw;
+
+    margin-block: 250px;
+}
+
+@media (width >= 768px) {
+    .popup {
+        width: 50vw;
+    }
+} 
+
+.title_popup {
+    font-family: 'Nunito SemiBold', sans-serif;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 34px;
+    color: #FF6B01;
+    text-align: center;
+    margin-block: 10px;
+}
+
+.hystory_list {
+    background: white;
+    display: flex;
+    flex-direction: column;
+}
+.hystory_list_item {
+    font-family: "Nunito SemiBold", sans-serif;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #000000;
+    padding-block: 10px;
+    padding-inline: 15px;
+}
+
+.name_workers {
+    color: #000000;
+    font-size: 20px;
+}
+
+.glasses_workers {
+    display: flex;
+    align-items: center;
+    border: 2px solid #000000;
+    border-radius: 5px;
+    padding-inline: 5px;
+    font-size: 17px;
+    color: #000000;
+}
+
+.popup_button:hover {
+    cursor: pointer;
+    background-color: #FF6B01;
+}
+
+.popup_button:active {
+    cursor: pointer;
+    background-color: #FD3511;
+}
+
+.popup_button:focus {
+    outline: none;
+}
+
+.popup_button:focus-visible {
+    border: 2px solid #FF6B01;
+}
+
+.page {
+    background-color: #F9F9F9;
+}*/
+
+/* SECTION PopUP */
+
+.popup {
+    background-color: #ffffff;
+    margin: auto;
+    height: 360px;
+    width: 90vw;
+    overflow-y: scroll;
+}
+
+@media (width >= 768px) {
+    .popup {
+        width: 50vw;
+    }
+} 
+
+.title_popup {
+    font-family: 'Nunito SemiBold', sans-serif;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 34px;
+    color: #FF6B01;
+    text-align: center;
+    margin-block: 10px;
+}
+
+.hystory_list {
+    background: white;
+    display: flex;
+    flex-direction: column;
+}
+.hystory_list_item {
+    font-family: "Nunito SemiBold", sans-serif;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #000000;
+    padding-block: 10px;
+    padding-inline: 15px;
+}
+
+.name_workers {
+    color: #000000;
+    font-size: 20px;
+}
+
+.glasses_workers {
+    display: flex;
+    align-items: center;
+    border: 2px solid #000000;
+    border-radius: 5px;
+    padding-inline: 5px;
+    font-size: 17px;
+    color: #000000;
+}
+
+.popup_button {
+    font-family: 'Nunito SemiBold', sans-serif;
+    font-size: 20px;
+    margin-block-start: 15px;
+    height: 30px;
+    min-width: 115px;
+    border: none;
+    background-color: #02522B;
+    color: #ffffff;
+    border-radius: 15px;
+    transition: background-color 0.3s;
+}
+
+.popup_button:hover {
+    cursor: pointer;
+    background-color: #FF6B01;
+}
+
+.popup_button:active {
+    cursor: pointer;
+    background-color: #FD3511;
+}
+
+.popup_button:focus {
+    outline: none;
+}
+
+.popup_button:focus-visible {
+    border: 2px solid #FF6B01;
+}
