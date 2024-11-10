@@ -5,22 +5,20 @@ interface Gift {
   link: string;
   points: number;
   name: string;
-  _id:string
- }
- 
+  _id: string;
+}
+
 export interface GiftsState {
   gifts: Gift[];
   isLoading: boolean;
   error: string | null;
- }
+}
 
-
- 
- const initialState: GiftsState = {
-   gifts: [],
-   isLoading: false,
-   error: null,
- };
+const initialState: GiftsState = {
+  gifts: [],
+  isLoading: false,
+  error: null
+};
 
 // Асинхронная функция для получения подарков с API
 export const fetchGifts = createAsyncThunk('api/gifts', async () => {
@@ -54,8 +52,5 @@ export const giftsSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message ? action.error.message : null;
       });
-  },
+  }
 });
-
-
-

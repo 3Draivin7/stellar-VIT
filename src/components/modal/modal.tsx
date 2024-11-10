@@ -11,7 +11,8 @@ interface ModalProps {
 export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   const [isEscPressed, setIsEscPressed] = useState(false);
 
-  const handleKeyDown = (e: KeyboardEvent) => { // Добавьте тип для события
+  const handleKeyDown = (e: KeyboardEvent) => {
+    // Добавьте тип для события
     if (e.key === 'Escape') {
       setIsEscPressed(true);
       onClose();
@@ -32,8 +33,11 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   return (
     isOpen && (
       <div className={styles.modalOverlay} onClick={onClose}>
-        <div className={styles.modalContent} onClick={(e: React.MouseEvent) => e.stopPropagation()}>
-        <button className={styles.modalClose} onClick={onClose}>
+        <div
+          className={styles.modalContent}
+          onClick={(e: React.MouseEvent) => e.stopPropagation()}
+        >
+          <button className={styles.modalClose} onClick={onClose}>
             &times;
           </button>
           {children}
@@ -42,6 +46,3 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
     )
   );
 };
-
-
-

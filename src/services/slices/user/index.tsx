@@ -1,10 +1,16 @@
 import {
   SerializedError,
   createAsyncThunk,
-  createSlice
-  , PayloadAction
+  createSlice,
+  PayloadAction
 } from '@reduxjs/toolkit';
-import { TRegisterData,registerUserApi,TLoginData,loginUserApi, logoutApi } from '../../../utils/burger-api';
+import {
+  TRegisterData,
+  registerUserApi,
+  TLoginData,
+  loginUserApi,
+  logoutApi
+} from '../../../utils/burger-api';
 import { TUser } from '../../../utils/types';
 import { URL } from '../../../utils/burger-api';
 
@@ -56,9 +62,6 @@ export function deleteCookie(name: string) {
   setCookie(name, '', { expires: -1 });
 }
 
-
-
-
 export type TUserState = {
   isAuthChecked: boolean;
   isAuthenticated: boolean;
@@ -67,29 +70,23 @@ export type TUserState = {
   data: TUser | null;
   allData: TUser[] | null;
   isLoading: boolean; // Добавлено isLoading
-  error?:string ;
+  error?: string;
 };
 
 export const initialState: TUserState = {
   isAuthChecked: false,
   isAuthenticated: false,
   registerError: undefined,
-  data: {   email: 0,
-    name: "",
-    secondName: "",
-    isActivated:false,
-  lvl:0},
-  allData:[],
+  data: { email: 0, name: '', secondName: '', isActivated: false, lvl: 0 },
+  allData: [],
   isLoading: false, // Добавлено начальное состояние isLoading
-  error:""
+  error: ''
 };
 
-
-
 const storeTokens = (refreshToken: string, accessToken: string) => {
-  setCookie('accessToken', String(accessToken)); 
-   localStorage.setItem('refreshToken', String(refreshToken)); 
- };
+  setCookie('accessToken', String(accessToken));
+  localStorage.setItem('refreshToken', String(refreshToken));
+};
 
 export const register = createAsyncThunk<TUser, TRegisterData>(
   'user/register',
@@ -112,7 +109,7 @@ export const login = createAsyncThunk<TUser, TLoginData>(
       const { user, refreshToken, accessToken } = response;
       storeTokens(refreshToken, accessToken);
       return response.user;
-    } catch (error) {
+    } catch (error: any) {
       return rejectWithValue(error.message);
     }
   }
@@ -133,57 +130,57 @@ export const logout = createAsyncThunk(
 );
 
 type checkAuthThink = {
-  accesToken:string,
-  refreshToken:string,
-  user: TUser | null; 
-}
+  accesToken: string;
+  refreshToken: string;
+  user: TUser | null;
+};
 
-  export const checkAuth = createAsyncThunk<checkAuthThink | null, void>(
-    'auth/checkAuth',
-    async () => {
-      try {
-        const refreshToken = localStorage.getItem('refreshToken');
-        if (!refreshToken) {
-          return null; 
-        }
-
-        const response = await fetch(`${URL}refresh`, {
-          method: 'POST', 
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ refreshToken }), 
-        });
-
-        if (!response.ok) {
-          throw new Error(`Ошибка HTTP: ${response.status}`);
-        } 
-        const data = await response.json();       
-        storeTokens(data.refreshToken, data.accessToken);
-        return data 
-      } catch (error) {
-        return (error);
-      }
-    }
-  );
-
-  export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
+export const checkAuth = createAsyncThunk<checkAuthThink | null, void>(
+  'auth/checkAuth',
+  async () => {
     try {
-      const response = await fetch(`${URL}users`); 
+      const refreshToken = localStorage.getItem('refreshToken');
+      if (!refreshToken) {
+        return null;
+      }
+
+      const response = await fetch(`${URL}refresh`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ refreshToken })
+      });
+
       if (!response.ok) {
-        throw new Error('Ошибка при получении пользователей');
+        throw new Error(`Ошибка HTTP: ${response.status}`);
       }
       const data = await response.json();
+      storeTokens(data.refreshToken, data.accessToken);
       return data;
     } catch (error) {
-      throw error;
+      //return (error);
+      return null;
     }
-  });
-  interface LoginError {
-    message: string; 
-
   }
- 
+);
+
+export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
+  try {
+    const response = await fetch(`${URL}users`);
+    if (!response.ok) {
+      throw new Error('Ошибка при получении пользователей');
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+    //return null
+  }
+});
+interface LoginError {
+  message: string;
+}
 
 export const userSlice = createSlice({
   name: 'user',
@@ -191,76 +188,88 @@ export const userSlice = createSlice({
   reducers: {
     setUser(state, action: PayloadAction<TUser>) {
       state.isAuthenticated = true;
-      state.data = action.payload; 
+      state.data = action.payload;
     }
   },
   extraReducers: (builder) => {
     builder
-    .addCase(register.pending, (state) => {
-      state.registerError = undefined;
-      state.isLoading = true; 
-    })
-    .addCase(register.fulfilled, (state, action) => {
-      state.registerError = undefined;
-      state.isAuthenticated = true;
-      state.data = action.payload;
-      state.isLoading = false; 
-    })
-    .addCase(register.rejected, (state, action) => {
-      if (action.payload) {
-        state.registerError = action.payload; 
-    } else {
-        state.registerError = action.error; 
-    }  
-      state.isLoading = false; 
-    })
-    .addCase(login.pending, (state) => {
-      state.loginError = undefined;
-      state.isLoading = true;
-    })
-    .addCase(login.fulfilled, (state, action) => {
-      state.loginError = undefined;
-      state.isAuthenticated = true;
-      state.data = action.payload;
-      state.isLoading = false;
-    })
-    .addCase(login.rejected, (state, action) => {
-      state.loginError = action.meta.rejectedWithValue
-        ? (action.payload as SerializedError)
-        : action.error;
-      state.isLoading = false; 
-    })
-    .addCase(checkAuth.fulfilled, (state, action) => {
-      // Проверка на null
-      if (action.payload) {
-       state.isAuthenticated = true;
-       state.data = action.payload.user;
-      } else {
-       state.isAuthenticated = false;
-       state.data = null;
-      }
-     })
-     .addCase(checkAuth.rejected, (state, action) => {
-      console.error('Ошибка проверки аутентификации:', action.payload); 
-      state.isAuthenticated = false;
-      state.data = null;
-     })
-     .addCase(logout.fulfilled, (state) => {
-      state.isAuthenticated = false;
-      state.data = { email: 0, name: '', secondName:'', lvl:0, isActivated:false };
-      state.isLoading = false; 
-    })
-    .addCase(fetchUsers.pending, (state) => {
-      state.isLoading = true;
-      state.error = '';
-    })
-    .addCase(fetchUsers.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.allData = action.payload;
-    })
-    .addCase(fetchUsers.rejected, (state, action) => {
-      state.isLoading = false;
-      state.error = action.error.message;
-    });
+      .addCase(register.pending, (state) => {
+        state.registerError = undefined;
+        state.isLoading = true;
+      })
+      .addCase(register.fulfilled, (state, action) => {
+        state.registerError = undefined;
+        state.isAuthenticated = true;
+        state.data = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(register.rejected, (state, action) => {
+        if (action.payload) {
+          state.registerError = action.payload;
+        } else {
+          state.registerError = action.error;
+        }
+        state.isLoading = false;
+      })
+      .addCase(login.pending, (state) => {
+        state.loginError = undefined;
+        state.isLoading = true;
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        state.loginError = undefined;
+        state.isAuthenticated = true;
+        state.data = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(login.rejected, (state, action) => {
+        state.loginError = action.meta.rejectedWithValue
+          ? (action.payload as SerializedError)
+          : action.error;
+        state.isLoading = false;
+      })
+      .addCase(checkAuth.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.isAuthenticated = true;
+          state.data = action.payload.user;
+        } else {
+          state.isAuthenticated = false;
+          state.data = null;
+        }
+      })
+      .addCase(checkAuth.rejected, (state, action) => {
+        if (action.error?.message) {
+          console.error(
+            'Ошибка проверки аутентификации:',
+            action.error.message
+          );
+        } else {
+          console.error('Ошибка проверки аутентификации:', action.error);
+        }
+        state.isAuthenticated = false;
+        state.data = null;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.isAuthenticated = false;
+        state.data = {
+          email: 0,
+          name: '',
+          secondName: '',
+          lvl: 0,
+          isActivated: false
+        };
+        state.isLoading = false;
+      })
+      .addCase(fetchUsers.pending, (state) => {
+        state.isLoading = true;
+        state.error = '';
+      })
+      .addCase(fetchUsers.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.allData = action.payload;
+      })
+      .addCase(fetchUsers.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      });
   }
 });

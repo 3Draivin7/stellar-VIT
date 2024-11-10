@@ -18,7 +18,7 @@ export type RootState = {
   user: TUserState;
   allAdmins: adminsState;
   worker: WorkersState;
-  gifts: GiftsState
+  gifts: GiftsState;
 };
 
 export const rootReducer: Reducer<

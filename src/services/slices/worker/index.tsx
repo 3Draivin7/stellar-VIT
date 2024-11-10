@@ -2,44 +2,46 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { URL } from '../../../utils/burger-api';
 
 interface Worker {
-    number: number;
-    points: number;
-    name: string;
-    secondName: string;
-    history: { points: number; who: string }[];
-   }
-   
-  export interface WorkersState {
-    workers: Worker[];
-    loading: boolean;
-    error: string | null | undefined;
-   }
+  number: number;
+  points: number;
+  name: string;
+  secondName: string;
+  history: { points: number; who: string }[];
+}
+
+export interface WorkersState {
+  workers: Worker[];
+  loading: boolean;
+  error: string | null | undefined;
+}
 
 const initialState: WorkersState = {
   workers: [],
-  loading: false, 
-  error: null,
+  loading: false,
+  error: null
 };
 
 // Асинхронная функция для получения работников
-export const fetchWorkers = createAsyncThunk('workers/fetchWorkers', async () => {
-  try {
-    const response = await fetch(`${URL}worker/get`); 
-    if (!response.ok) {
-      throw new Error(`Ошибка получения работников: ${response.status}`);   
+export const fetchWorkers = createAsyncThunk(
+  'workers/fetchWorkers',
+  async () => {
+    try {
+      const response = await fetch(`${URL}worker/get`);
+      if (!response.ok) {
+        throw new Error(`Ошибка получения работников: ${response.status}`);
+      }
+      const data = await response.json();
+      return data;
+    } catch (error: any) {
+      return error.message;
     }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    return error.message;
   }
-});
+);
 
 export const workersSlice = createSlice({
   name: 'workers',
   initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(fetchWorkers.pending, (state) => {
@@ -53,6 +55,5 @@ export const workersSlice = createSlice({
         state.loading = false;
         state.error = action.error.message || null;
       });
-  },
+  }
 });
-

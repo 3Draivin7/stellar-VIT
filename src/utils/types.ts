@@ -36,8 +36,8 @@ export type TUser = {
   email: number;
   name: string;
   secondName: string;
-  lvl:number;
-  isActivated:boolean;
+  lvl: number;
+  isActivated: boolean;
 };
 
 export type TTabMode = 'bun' | 'sauce' | 'main';

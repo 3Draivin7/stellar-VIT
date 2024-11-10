@@ -22,9 +22,10 @@ type TAuthResponse = TServerResponse<{
   accessToken: string;
   user: TUser;
 }>;
-   
 
-export const registerUserApi = async (data: TRegisterData): Promise<TAuthResponse> => {
+export const registerUserApi = async (
+  data: TRegisterData
+): Promise<TAuthResponse> => {
   try {
     const response = await fetch(`${URL}registration`, {
       method: 'POST',
@@ -41,20 +42,19 @@ export const registerUserApi = async (data: TRegisterData): Promise<TAuthRespons
 
     const responseData = await response.json();
 
-    return Promise.reject(responseData); 
+    return Promise.reject(responseData);
   } catch (error) {
     throw error; // Передаем ошибку дальше
   }
 };
-
 
 export type TLoginData = {
   email: number;
   password: string;
 };
 
-export const loginUserApi = (data: TLoginData): Promise<TAuthResponse> => {
-  return new Promise((resolve, reject) => {
+export const loginUserApi = (data: TLoginData): Promise<TAuthResponse> =>
+  new Promise((resolve, reject) => {
     fetch(`${URL}login`, {
       method: 'POST',
       headers: {
@@ -62,28 +62,35 @@ export const loginUserApi = (data: TLoginData): Promise<TAuthResponse> => {
       },
       body: JSON.stringify(data)
     })
-      .then(response => {
+      .then((response) => {
         if (response.status >= 200 && response.status < 300) {
-          response.json().then(responseData => {
-            resolve(responseData);
-          })
-          .catch(() => {
-            reject(new Error('Произошла ошибка при получении данных от сервера'));
-          });
+          response
+            .json()
+            .then((responseData) => {
+              resolve(responseData);
+            })
+            .catch(() => {
+              reject(
+                new Error('Произошла ошибка при получении данных от сервера')
+              );
+            });
         } else {
-          response.json().then(errorData => {
-            reject(new Error(errorData?.message || 'Произошла ошибка'));
-          })
-          .catch(() => {
-            reject(new Error('Произошла ошибка при получении данных от сервера'));
-          });
+          response
+            .json()
+            .then((errorData) => {
+              reject(new Error(errorData?.message || 'Произошла ошибка'));
+            })
+            .catch(() => {
+              reject(
+                new Error('Произошла ошибка при получении данных от сервера')
+              );
+            });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         reject(error);
       });
   });
-};
 
 export const logoutApi = () =>
   fetch(`${URL}logout`, {
