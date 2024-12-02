@@ -55,8 +55,11 @@ export const Gifts: FC = () => {
     dispatch(checkAuth());
   };
 
-  const gifts = useSelector((state) => state.gifts.gifts);
+  const giftss = useSelector((state) => state.gifts.gifts);
   const isLoading = useSelector((state) => state.gifts.isLoading);
+
+  const gifts = giftss.sort((a, b) => b.points - a.points);
+
 
   return (
     <>
