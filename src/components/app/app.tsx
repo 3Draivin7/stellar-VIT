@@ -20,7 +20,8 @@ import { AddGift } from '../addGifts/addGifts';
 import { RegistrationForm } from '../../pages/registration/registration';
 import { fetchWorkers } from '../../services/slices/worker';
 import Snowfall from "react-snowfall";
-
+import heartImgUrl from '../../svg/heart.svg';
+import { rgb } from 'polished';
 
 export function App() {
   const dispatch = useDispatch();
@@ -29,40 +30,59 @@ export function App() {
     navigate(-1);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await dispatch(checkAuth());
-        //  await dispatch(fetchUsers())
-        await dispatch(fetchWorkers());
-      } catch (e) {}
-    };
-    fetchData();
-  }, [dispatch]);
-
   const location = useLocation();
   const background = location.state && location.state.background;
 
   const [isSnowing, setIsSnowing] = useState(false);
+  const [heartImg, setHeartImg] = useState<HTMLImageElement | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await dispatch(checkAuth());
+        await dispatch(fetchWorkers());
+      } catch (e) {
+        console.error("Error fetching data:", e);
+      }
+    };
+    fetchData();
+  }, [dispatch]);
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = heartImgUrl; // Use the imported URL
+
+    img.onload = () => {
+      setHeartImg(img);
+    };
+
+    img.onerror = () => {
+      console.error("Failed to load heart image:", heartImgUrl);
+    };
+  }, [heartImgUrl]);
 
   useEffect(() => {
     // Запускаем снег через 1 секунду после загрузки страницы
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setIsSnowing(true);
     }, 1000);
+
+    return () => clearTimeout(timer); // Clear timeout on unmount
   }, []);
 
   return (
     <div>
-      {isSnowing && (
-              <Snowfall
-              style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%' }}
-                snowflakeCount={300} // Количество снежинок
-                color={`rgb(173, 216, 230)`} // Цвет снежинок
-                speed={[3,0]} // Скорость падения
-                wind={[0.5, 0.5]} // Ветер
-              />
-            )}
+      {heartImg && isSnowing && ( // Убедитесь, что heartImg загружено И isSnowing true
+        <Snowfall
+          style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%'}}
+          snowflakeCount={50}
+          color={rgb(102,102,102)}
+          radius={[11,11]}
+          speed={[3, 0]}
+          wind={[0,0]}
+          images={[heartImg]} // Pass the loaded image object
+        />
+      )}
       <AppHeader />
       <Routes>
         <Route path='/' element={<Main />} />
